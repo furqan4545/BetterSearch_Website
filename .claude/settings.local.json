@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:v0.app)",
+      "Bash(find /Users/topg/Desktop/typescript/bettersearch_website/.claude/worktrees/flamboyant-goldberg/src -type f -name *.ts -o -name *.tsx -o -name *.js -o -name *.jsx)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(npm run:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"feat: BetterSearch landing page with particle shader, pixelated comparison, hotkeys:*)"
+    ]
+  }
+}
