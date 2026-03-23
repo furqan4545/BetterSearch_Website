@@ -19,7 +19,7 @@ export function PixelatedImage({
   const [loaded, setLoaded] = useState(false);
   const imgRef = useRef<HTMLImageElement | null>(null);
   const animRef = useRef<number>(0);
-  const pixelSizeRef = useRef(20); // start very pixelated
+  const pixelSizeRef = useRef(20);
 
   useEffect(() => {
     const img = new window.Image();
@@ -40,14 +40,19 @@ export function PixelatedImage({
 
     const parent = canvas.parentElement!;
     const rect = parent.getBoundingClientRect();
-    const w = rect.width;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const cssW = rect.width;
     const ratio = img.width / img.height;
-    const h = w / ratio;
+    const cssH = cssW / ratio;
 
-    canvas.width = w;
-    canvas.height = h;
-    canvas.style.width = `${w}px`;
-    canvas.style.height = `${h}px`;
+    // Set canvas to full retina resolution
+    canvas.width = cssW * dpr;
+    canvas.height = cssH * dpr;
+    canvas.style.width = `${cssW}px`;
+    canvas.style.height = `${cssH}px`;
+
+    const w = canvas.width;
+    const h = canvas.height;
 
     const targetPixelSize = isHovered ? 1 : 16;
 
@@ -63,23 +68,28 @@ export function PixelatedImage({
 
       const ps = Math.max(1, Math.round(pixelSizeRef.current));
 
-      // Draw at reduced resolution then scale up
-      ctx.imageSmoothingEnabled = false;
-
-      const smallW = Math.max(1, Math.floor(w / ps));
-      const smallH = Math.max(1, Math.floor(h / ps));
-
-      // Draw image small
       ctx.clearRect(0, 0, w, h);
-      ctx.drawImage(img, 0, 0, smallW, smallH);
 
-      // Scale back up with no smoothing = pixelation
-      ctx.drawImage(canvas, 0, 0, smallW, smallH, 0, 0, w, h);
+      if (ps <= 1) {
+        // Full quality — draw image directly at retina res
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(img, 0, 0, w, h);
+      } else {
+        // Pixelated — draw small then scale up
+        ctx.imageSmoothingEnabled = false;
 
-      // Add slight overlay when pixelated
-      if (ps > 2) {
-        ctx.fillStyle = `rgba(0,0,0,${Math.min(0.3, (ps - 1) * 0.02)})`;
-        ctx.fillRect(0, 0, w, h);
+        const smallW = Math.max(1, Math.floor(w / ps));
+        const smallH = Math.max(1, Math.floor(h / ps));
+
+        ctx.drawImage(img, 0, 0, smallW, smallH);
+        ctx.drawImage(canvas, 0, 0, smallW, smallH, 0, 0, w, h);
+
+        // Slight dark overlay when pixelated
+        if (ps > 2) {
+          ctx.fillStyle = `rgba(0,0,0,${Math.min(0.25, (ps - 1) * 0.015)})`;
+          ctx.fillRect(0, 0, w, h);
+        }
       }
 
       if (Math.abs(pixelSizeRef.current - targetPixelSize) > 0.3) {

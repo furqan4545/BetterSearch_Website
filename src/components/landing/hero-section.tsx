@@ -80,7 +80,7 @@ export function HeroSection() {
         <div className="animate-fade-in-up-delay-3 mt-8 flex items-center gap-6 sm:gap-10 text-xs sm:text-sm text-white/30">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-green-400/60" />
-            1.9MB
+            3.9MB
           </div>
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400/60" />
