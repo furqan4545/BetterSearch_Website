@@ -63,7 +63,7 @@ export function PixelatedImage({
       if (Math.abs(diff) < 0.3) {
         pixelSizeRef.current = targetPixelSize;
       } else {
-        pixelSizeRef.current += diff * 0.08;
+        pixelSizeRef.current += diff * 0.15;
       }
 
       const ps = Math.max(1, Math.round(pixelSizeRef.current));
