@@ -1,0 +1,9 @@
+# BetterSearch — bettersearch.0to-1.com
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://bettersearch.0to-1.com/sitemap.xml
+
+# LLM context
+# See /llms.txt and /llms-full.txt for AI-readable descriptions
