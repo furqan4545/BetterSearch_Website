@@ -19,7 +19,7 @@ export function Footer() {
           </a>
         </div>
         <p className="text-sm text-white/40">
-          Made with <span className="text-red-500">&#10084;</span> in Seoul.
+          Made with <span className="text-red-500 text-base leading-none">&#9829;</span> in Seoul.
         </p>
       </div>
     </footer>
