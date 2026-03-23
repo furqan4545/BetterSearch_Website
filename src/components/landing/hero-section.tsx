@@ -1,6 +1,10 @@
 import { ParticleCanvas } from "./particle-canvas";
 import { KeyboardShortcut } from "./keyboard-shortcut";
 
+const DOWNLOAD_URL =
+  process.env.NEXT_PUBLIC_DOWNLOAD_URL ||
+  "https://github.com/furqan4545/BetterSearch/releases/download/1.5/BetterSearch.1.5.dmg";
+
 export function HeroSection() {
   return (
     <section className="relative flex flex-col items-center px-4 sm:px-6 pt-16 sm:pt-24 pb-8 sm:pb-12 overflow-hidden min-h-[80vh] justify-center">
@@ -41,7 +45,7 @@ export function HeroSection() {
         {/* CTA */}
         <div className="animate-fade-in-up-delay-3 mt-10 sm:mt-12 flex flex-col sm:flex-row items-center gap-4">
           <a
-            href="https://github.com/furqan4545/BetterSearch/releases/download/1.4/BS.1.4.dmg"
+            href={DOWNLOAD_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="
