@@ -20,9 +20,11 @@ export function HotkeysSection() {
         </div>
 
         {/* Hotkey grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-lg mx-auto">
           {hotkeys.map((hk) => (
-            <HotkeyCard key={hk.label} keys={hk.keys} label={hk.label} />
+            <div key={hk.label} className="w-[calc(50%-0.5rem)] sm:w-56">
+              <HotkeyCard keys={hk.keys} label={hk.label} />
+            </div>
           ))}
         </div>
       </div>
