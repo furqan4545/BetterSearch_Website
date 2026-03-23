@@ -2,7 +2,6 @@ import { HotkeyCard } from "./hotkey-card";
 
 const hotkeys = [
   { keys: ["⌘", "⇧", "Space"], label: "Open BetterSearch" },
-  { keys: ["⌘", "C"], label: "Copy file path" },
   { keys: ["Esc"], label: "Close" },
 ];
 
