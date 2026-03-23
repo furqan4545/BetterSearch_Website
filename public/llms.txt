@@ -1,0 +1,55 @@
+# BetterSearch
+
+> A lightweight (3.9MB) macOS Spotlight replacement that actually finds your files.
+
+BetterSearch replaces macOS Spotlight with a 5-layer AI-powered search engine. Press ⌘⇧Space from anywhere to search.
+
+## The Problem
+
+macOS Spotlight is broken — search "screenshot" and it returns random .d.ts files from node_modules instead of actual screenshot apps like Xnapper or Screen Studio.
+
+## How It Works
+
+BetterSearch runs 5 search layers in parallel, streaming results as they arrive:
+
+- **Layer 1: Exact match** — sub-millisecond, in-memory index
+- **Layer 1.5: App metadata** — finds apps by what they DO (bundle ID, description)
+- **Layer 2: Fuzzy match** — catches typos ("safri" → Safari)
+- **Layer 3: Semantic search** — Apple NLEmbedding finds related words ("capture" → "screenshot")
+- **Layer 4: Category detection** — "photos" shows all images, "videos" shows all videos
+- **Layer 5: Content search** — searches INSIDE file contents via Spotlight APIs
+
+## Key Features
+
+- Smart Ranking: Apps first, then user files, code/cache last
+- Real Thumbnails: actual previews for images, videos, PDFs via QuickLook
+- Copy Images: multi-select images and copy to clipboard
+- Drag & Drop: drag files from results into any file picker
+- Live Index: FSEvents watcher, new files appear instantly
+- Glass UI: translucent vibrancy with animated gradient border
+- Zero CPU when idle: no background processes, no daemons
+
+## Tech Stack
+
+- Swift + SwiftUI + AppKit (native macOS, no Electron)
+- NLEmbedding (Apple's built-in word embeddings)
+- QLThumbnailGenerator (native thumbnails)
+- Carbon RegisterEventHotKey (global hotkey)
+- FSEvents (live file system watching)
+
+## Requirements
+
+- macOS 12.4+
+- Accessibility permission (for global hotkey)
+- 3.9MB download, ~15MB RAM idle
+
+## Links
+
+- Website: https://bettersearch.0to-1.com
+- GitHub: https://github.com/furqan4545/BetterSearch
+- Download: https://github.com/furqan4545/BetterSearch/releases/download/1.5/BetterSearch.1.5.dmg
+- Contact: ali@screenshow.app
+
+## Further reading
+
+- [Full details](https://bettersearch.0to-1.com/llms-full.txt)

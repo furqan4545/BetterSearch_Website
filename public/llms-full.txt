@@ -1,0 +1,113 @@
+# BetterSearch — Full Context for LLMs
+
+> A lightweight (3.9MB) macOS Spotlight replacement that actually finds your files using a 5-layer AI search engine.
+
+## Overview
+
+BetterSearch is a native macOS application built with Swift, SwiftUI, and AppKit that replaces the default Spotlight search. It uses a multi-layered search approach that runs all layers in parallel and streams results as they arrive. The app is activated with ⌘⇧Space (Cmd+Shift+Space) from anywhere on macOS.
+
+## Problem Statement
+
+macOS Spotlight frequently returns irrelevant results. For example, searching "screenshot" returns .d.ts TypeScript definition files from node_modules instead of actual screenshot applications like Xnapper or Screen Studio. BetterSearch fixes this with intelligent ranking and multi-layer search.
+
+## Search Architecture
+
+All 5 search layers run concurrently, and results stream into the UI as each layer completes:
+
+### Layer 1: Exact Match
+- Sub-millisecond response time
+- In-memory index of all indexed files
+- Direct string matching on filenames
+
+### Layer 1.5: App Metadata Search
+- Searches application bundle IDs and descriptions
+- Finds apps by what they DO, not just their name
+- Example: searching "browser" finds Safari, Chrome, Firefox
+
+### Layer 2: Fuzzy Match
+- Catches typos and partial matches
+- Example: "safri" → Safari, "chrom" → Chrome
+- Uses edit distance algorithms
+
+### Layer 3: NLEmbedding Semantic Search
+- Uses Apple's built-in NLEmbedding framework
+- Finds semantically related words
+- Example: "capture" → screenshot tools, "music" → audio players
+- No external API calls — all on-device
+
+### Layer 4: Category Detection
+- Recognizes category keywords
+- "photos" or "images" shows all image files
+- "videos" shows all video files
+- "documents" shows PDFs, Word docs, etc.
+
+### Layer 5: Spotlight Content Search
+- Searches INSIDE file contents using macOS Spotlight APIs (MDQuery)
+- Finds documents containing specific text
+- Leverages existing Spotlight index
+
+## Smart Ranking System
+
+Results are ranked with apps prioritized first, followed by user files (images, documents, videos), with code files and cache directories ranked last. This ensures the most relevant results appear at the top.
+
+## Features
+
+- **Real Thumbnails**: Uses QLThumbnailGenerator for actual previews of images, videos, and PDFs
+- **Copy Images**: Multi-select images and copy to clipboard
+- **Copy Path**: Right-click any file to copy its full path
+- **Drag & Drop**: Drag files from search results into any file picker or Finder
+- **Live Index**: FSEvents watcher detects new, modified, and deleted files instantly
+- **Glass UI**: Translucent vibrancy using NSVisualEffectView with .hudWindow material
+- **Animated Gradient Border**: Cycles through pink → purple → blue → green → yellow → orange
+- **Liquid Animation**: Spring-based open/close animation
+- **Zero CPU When Idle**: No background processes or daemons running
+
+## Design
+
+- Glass/translucent window with macOS vibrancy
+- Animated gradient border: #FF6B9D, #C084FC, #60A5FA, #34D399, #FBBF24, #FB923C
+- Dark text with drop shadows for readability
+- AI label: purple gradient (#A855F7 to #7C3AED)
+- Fuzzy tag: amber #D97706
+- Semantic tag: purple #8B5CF6
+- Category tag: green #059669
+- Content tag: blue #2563EB
+- SF Pro font, 16px continuous corners
+
+## Technical Stack
+
+- **Language**: Swift
+- **UI Framework**: SwiftUI + AppKit
+- **Semantic Search**: NLEmbedding (Apple's built-in word embeddings)
+- **Thumbnails**: QLThumbnailGenerator
+- **Global Hotkey**: Carbon RegisterEventHotKey
+- **File Watching**: FSEvents
+- **No Electron**: Fully native macOS app
+
+## System Requirements
+
+- macOS 12.4 (Monterey) or later
+- Accessibility permission required for global keyboard shortcut
+- 3.9MB download size
+- ~15MB RAM when idle
+
+## Keyboard Shortcuts
+
+- ⌘⇧Space (Cmd+Shift+Space): Open BetterSearch
+- Esc: Close BetterSearch
+- Click on result: Reveal in Finder
+
+## Installation
+
+1. Download BetterSearch.1.5.dmg from GitHub Releases
+2. Open the DMG and drag BetterSearch to Applications
+3. Launch BetterSearch and grant Accessibility permission when prompted
+4. Press ⌘⇧Space to start searching
+
+## Links
+
+- Website: https://bettersearch.0to-1.com
+- GitHub Repository: https://github.com/furqan4545/BetterSearch
+- Direct Download (v1.5): https://github.com/furqan4545/BetterSearch/releases/download/1.5/BetterSearch.1.5.dmg
+- Contact: ali@screenshow.app
+- Made in Seoul, South Korea
